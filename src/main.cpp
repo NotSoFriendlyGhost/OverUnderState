@@ -1,11 +1,13 @@
 #include "main.h"
+#include "EZ-Template/piston.hpp"
+#include "pros/misc.h"
 
 /////
 // For installation, upgrading, documentations and tutorials, check out our website!
 // https://ez-robotics.github.io/EZ-Template/
 /////
 
-
+ez::Piston wings('A');
 // Chassis constructor
 ez::Drive chassis (
   // Left Chassis Ports (negative port will reverse it!)
@@ -158,6 +160,9 @@ void opcontrol() {
 
       chassis.pid_tuner_iterate(); // Allow PID Tuner to iterate
     } 
+    else{
+      wings.button_toggle(master.get_digital(DIGITAL_Y));
+    }
 
     chassis.opcontrol_arcade_standard(ez::SPLIT); // Standard split arcade
 
