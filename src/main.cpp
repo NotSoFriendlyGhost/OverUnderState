@@ -1,6 +1,8 @@
 #include "main.h"
 #include "EZ-Template/piston.hpp"
 #include "pros/misc.h"
+#include "pros/motors.h"
+#include "pros/motors.hpp"
 
 /////
 // For installation, upgrading, documentations and tutorials, check out our website!
@@ -12,17 +14,17 @@ ez::Piston wings('A');
 ez::Drive chassis (
   // Left Chassis Ports (negative port will reverse it!)
   //   the first port is used as the sensor
-  {20, 10}
+  {-1, -12}
 
   // Right Chassis Ports (negative port will reverse it!)
   //   the first port is used as the sensor
-  ,{-11, -1}
+  ,{10, 18}
 
   // IMU Port
   ,8
 
   // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
-  ,2.75
+  ,3.25
 
   // Cartridge RPM
   ,200
@@ -31,7 +33,7 @@ ez::Drive chassis (
   // eg. if your drive is 84:36 where the 36t is powered, your RATIO would be 84/36 which is 2.333
   // eg. if your drive is 60:36 where the 36t is powered, your RATIO would be 60/36 which is 0.6
   // eg. if your drive is 36:60 where the 60t is powered, your RATIO would be 36/60 which is 0.6
-  ,1
+  ,0.6
 );
 
 
@@ -73,6 +75,7 @@ void initialize() {
   chassis.initialize();
   ez::as::initialize();
   master.rumble(".");
+  master.clear();
 }
 
 
@@ -141,6 +144,10 @@ void autonomous() {
 void opcontrol() {
   // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
+  pros::Motor flywheelA(2,pros::E_MOTOR_GEARSET_06,false);
+  pros::Motor flywheelB(9,pros::E_MOTOR_GEARSET_06,true);
+  pros::Motor_Group flywheel({flywheelA,flywheelB});
+  flywheel.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
   
   while (true) {
     
@@ -162,6 +169,10 @@ void opcontrol() {
     } 
     else{
       wings.button_toggle(master.get_digital(DIGITAL_Y));
+      if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) flywheel.move_velocity(450);
+      else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) flywheel.move(-450);
+      else flywheel.brake();
+      //master.print(flywheel.get_actual_velocities());
     }
 
     chassis.opcontrol_arcade_standard(ez::SPLIT); // Standard split arcade
