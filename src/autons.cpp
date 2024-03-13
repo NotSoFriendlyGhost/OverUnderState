@@ -26,6 +26,44 @@ void default_constants() {
   chassis.slew_drive_constants_set(7_in, 80);
 }
 
+///
+// Right Side Scoring
+///
+void rightScoring(){
+  chassis.pid_drive_set(24_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-20_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  intake.move_voltage(12000);
+  chassis.pid_drive_set(30_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(12_in,DRIVE_SPEED,true);
+  intake.move_voltage(-12000);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-12_in,DRIVE_SPEED,true);
+  chassis.pid_wait();
+  intake.brake();
+
+  chassis.pid_turn_set(-80_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  intake.move_voltage(12000);
+  chassis.pid_drive_set(20_in,DRIVE_SPEED,true);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-12_in,DRIVE_SPEED,true);
+  chassis.pid_wait();
+  
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait();
+}
 
 ///
 // Drive Example
@@ -190,7 +228,3 @@ void interfered_example() {
   chassis.pid_turn_set(90_deg, TURN_SPEED);
   chassis.pid_wait();
 }
-
-// . . .
-// Make your own autonomous functions here!
-// . . .
