@@ -21,7 +21,7 @@ ez::Drive chassis (
   ,{10, 18}
 
   // IMU Port
-  ,8
+  ,13
 
   // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
   ,3.25
