@@ -51,17 +51,43 @@ void rightScoring(){
   chassis.pid_wait();
   intake.brake();
 
-  chassis.pid_turn_set(-80_deg, TURN_SPEED);
+  chassis.pid_turn_set(-65_deg, TURN_SPEED);
   chassis.pid_wait();
 
   intake.move_voltage(12000);
-  chassis.pid_drive_set(20_in,DRIVE_SPEED,true);
+  chassis.pid_drive_set(16_in,DRIVE_SPEED,true);
   chassis.pid_wait();
 
   chassis.pid_drive_set(-12_in,DRIVE_SPEED,true);
   chassis.pid_wait();
   
   chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(20_in,DRIVE_SPEED,true);
+  chassis.pid_wait_until(10_in);
+  intake.move_voltage(-12000);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-12_in,DRIVE_SPEED,true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-120_deg, TURN_SPEED);
+  chassis.pid_wait();
+  intake.move_voltage(12000);
+
+  chassis.pid_drive_set(24_in,DRIVE_SPEED,true);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-12_in,DRIVE_SPEED,true);
+  chassis.pid_wait();
+  
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(20_in,DRIVE_SPEED,true);
+  chassis.pid_wait_until(10_in);
+  intake.move_voltage(-12000);
   chassis.pid_wait();
 }
 
