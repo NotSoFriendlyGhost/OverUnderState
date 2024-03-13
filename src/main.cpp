@@ -2,14 +2,12 @@
 #include "EZ-Template/piston.hpp"
 #include "pros/misc.h"
 #include "pros/motors.h"
-#include "pros/motors.hpp"
 
 /////
 // For installation, upgrading, documentations and tutorials, check out our website!
 // https://ez-robotics.github.io/EZ-Template/
 /////
 
-ez::Piston wings('A');
 // Chassis constructor
 ez::Drive chassis (
   // Left Chassis Ports (negative port will reverse it!)
@@ -49,6 +47,9 @@ void initialize() {
   ez::ez_template_print();
   
   pros::delay(500); // Stop the user from doing anything while legacy ports configure
+
+  // Configure braking modes
+  intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
   // Configure your chassis controls
   chassis.opcontrol_curve_buttons_toggle(true); // Enables modifying the controller curve with buttons on the joysticks
@@ -144,10 +145,6 @@ void autonomous() {
 void opcontrol() {
   // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
-  pros::Motor flywheelA(2,pros::E_MOTOR_GEARSET_06,false);
-  pros::Motor flywheelB(9,pros::E_MOTOR_GEARSET_06,true);
-  pros::Motor_Group flywheel({flywheelA,flywheelB});
-  flywheel.set_brake_modes(pros::E_MOTOR_BRAKE_COAST);
   
   while (true) {
     
@@ -169,10 +166,15 @@ void opcontrol() {
     } 
     else{
       wings.button_toggle(master.get_digital(DIGITAL_Y));
-      if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) flywheel.move_velocity(450);
-      else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) flywheel.move(-450);
-      else flywheel.brake();
-      //master.print(flywheel.get_actual_velocities());
+    }
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+      intake.move_voltage(12000);
+    }
+    else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+      intake.move_voltage(-12000);
+    }
+    else{
+      intake.brake();
     }
 
     chassis.opcontrol_arcade_standard(ez::SPLIT); // Standard split arcade
