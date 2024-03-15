@@ -334,7 +334,8 @@
     },
     "upload_options": {
       "description": "Code for team 38535A",
-      "icon": "pizza"
+      "icon": "pizza",
+      "slot": 2
     }
   }
 }
