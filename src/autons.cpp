@@ -72,11 +72,11 @@ void rightScoring(){
   chassis.pid_drive_set(-12_in,DRIVE_SPEED,true);
   chassis.pid_wait();
 
-  chassis.pid_turn_set(-120_deg, TURN_SPEED);
+  chassis.pid_turn_set(-125_deg, TURN_SPEED);
   chassis.pid_wait();
   intake.move_voltage(12000);
 
-  chassis.pid_drive_set(24_in,DRIVE_SPEED,true);
+  chassis.pid_drive_set(26_in,DRIVE_SPEED,true);
   chassis.pid_wait();
 
   chassis.pid_drive_set(-12_in,DRIVE_SPEED,true);
@@ -88,6 +88,9 @@ void rightScoring(){
   chassis.pid_drive_set(20_in,DRIVE_SPEED,true);
   chassis.pid_wait_until(10_in);
   intake.move_voltage(-12000);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-12_in,DRIVE_SPEED,true);
   chassis.pid_wait();
 }
 
