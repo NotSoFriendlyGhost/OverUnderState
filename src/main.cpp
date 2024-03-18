@@ -1,5 +1,4 @@
 #include "main.h"
-#include "EZ-Template/piston.hpp"
 #include "pros/misc.h"
 #include "pros/motors.h"
 
@@ -50,11 +49,8 @@ void initialize() {
 
   // Configure braking modes
   intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-
-  // Configure your chassis controls
-  chassis.opcontrol_curve_buttons_toggle(true); // Enables modifying the controller curve with buttons on the joysticks
-  chassis.opcontrol_drive_activebrake_set(0.1); // Sets the active brake kP. We recommend 0.1.
-  chassis.opcontrol_curve_default_set(7, 5); // Defaults for curve. If using tank, only the first parameter is used. (Comment this line out if you have an SD card!)  
+	flywheel.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	lifter.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   default_constants(); // Set the drive to your own constants from autons.cpp!
 
   // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
@@ -145,7 +141,10 @@ void autonomous() {
  */
 void opcontrol() {
   // This is preference to what you like to drive on
-  chassis.drive_brake_set(MOTOR_BRAKE_COAST);
+  master.set_text(2,0,"Flywheel: 75%");
+	pros::delay(60);
+	drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+  bool endgameDirection = 0;
   
   while (true) {
     
@@ -160,26 +159,102 @@ void opcontrol() {
         chassis.pid_tuner_toggle();
         
       // Trigger the selected autonomous routine
-      if (master.get_digital_new_press(DIGITAL_B)) 
+      if (master.get_digital_new_press(DIGITAL_DOWN)){
         autonomous();
+        drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+      } 
 
       chassis.pid_tuner_iterate(); // Allow PID Tuner to iterate
     } 
-    else{
-      wings.button_toggle(master.get_digital(DIGITAL_Y));
-    }
-    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
-      intake.move_voltage(12000);
-    }
-    else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
-      intake.move_voltage(-12000);
-    }
-    else{
-      intake.brake();
-    }
+		drive.arcadeDrive();
+		
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
+			intake.move_voltage(12000);
+			if(recording) trackIntake(1);
+		}
+		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
+			intake.move_voltage(-12000);
+			if(recording) trackIntake(-1);
+		}
+		else{
+			intake.brake();
+			if(recording) trackIntake(0);
+		}
 
-    chassis.opcontrol_arcade_standard(ez::SPLIT); // Standard split arcade
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
+			flywheel.move_voltage(-12000*flywheelVelocity);
+		else flywheel.brake();
 
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
+			if(flywheelVelocity==0.5){
+				flywheelVelocity = 0.75;
+				master.clear_line(1);
+				pros::delay(60);
+				master.set_text(2,0,"Flywheel: 75%");
+				pros::delay(60);
+			}
+			else{
+				flywheelVelocity = 1;
+				master.clear_line(2);
+				pros::delay(60);
+				master.set_text(2,0,"Flywheel: 100%");
+				pros::delay(60);
+			}
+		}
+
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
+			wingState = !wingState;
+			//if(recording) trackWings(wingState);
+		} 
+		wings.set_value(wingState);
+
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) endgameDirection = !endgameDirection;
+
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+			if(endgameDirection) lifter.move_voltage(12000);
+			else lifter.move_voltage(-12000);
+		}
+		else lifter.brake();
+
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)){
+			autonomous();
+			drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+		} 
+
+		if(recording) ofs<<'\n';
+
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+			if(!recording){
+				master.clear_line(1);
+				pros::delay(60);
+				master.set_text(1,0,"Recording...");
+				pros::delay(60);
+				drive.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+				startRecording("recording.txt");
+			}
+			else {
+				stopRecording();
+				drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+				master.clear_line(1);
+				pros::delay(60);
+				master.set_text(1,0,"Recording Saved");
+				pros::delay(60);
+			}
+		}
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
+			master.clear_line(1);
+			pros::delay(60);
+			master.set_text(1,0, "Replaying...");
+			pros::delay(60);
+			drive.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+			playback("recording.txt");
+			drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+			master.clear_line(1);
+			pros::delay(60);
+			master.set_text(1,0, "Replay Done");
+			pros::delay(60);
+
+		}
     // . . .
     // Put more user control code here!
     // . . .

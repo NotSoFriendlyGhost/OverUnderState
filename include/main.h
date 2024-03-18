@@ -79,10 +79,15 @@ void opcontrol(void);
 #endif
 
 #ifdef __cplusplus
-#include "globals.hpp"
 /**
  * You can add C++-only headers here
  */
+#include "titantron/joystickCurves.hpp" // IWYU pragma: export
+#include "titantron/globals.hpp" // IWYU pragma: export
+#include "titantron/selection.h" // IWYU pragma: export
+#include "titantron/autons.hpp" // IWYU pragma: export
+#include "titantron/drivetrain.hpp" // IWYU pragma: export
+#include "titantron/recording.hpp" // IWYU pragma: export
 //#include <iostream>
 #endif
 
