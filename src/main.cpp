@@ -44,6 +44,7 @@ ez::Drive chassis (
 void initialize() {
   // Print our branding over your terminal :D
   ez::ez_template_print();
+  teamLogo();
   
   pros::delay(500); // Stop the user from doing anything while legacy ports configure
 
@@ -71,7 +72,6 @@ void initialize() {
 
   // Initialize chassis and auton selector
   chassis.initialize();
-  ez::as::initialize();
   master.rumble(".");
   master.clear();
 }
@@ -84,6 +84,7 @@ void initialize() {
  * the robot is enabled, this task will exit.
  */
 void disabled() {
+  ez::as::initialize();
   // . . .
 }
 
