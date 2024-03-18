@@ -1,8 +1,6 @@
 #include "main.h"
 #include "pros/motors.h"
 #include "pros/motors.hpp"
-#include "pros/vision.h"
-#include "pros/vision.hpp"
 #include <cmath>
 #include <fstream>
 
@@ -22,8 +20,6 @@ bool wingState = 0;
 
 std::ofstream ofs; //Used for recording
 bool recording = false;
-
-pros::Vision vision(8,pros::E_VISION_ZERO_CENTER);
 
 int tileLength = 24; // Length of a tile in inches
 double diagTileLength = sqrt(pow(tileLength,2) + pow(tileLength,2)); // Length to travel diagonally across a tile in inches
