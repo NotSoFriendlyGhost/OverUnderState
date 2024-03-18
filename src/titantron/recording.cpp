@@ -1,3 +1,4 @@
+#include "EZ-Template/util.hpp"
 #include "main.h"
 #include <fstream>
 #include <ios>
@@ -34,7 +35,7 @@ void playback(std::string filename){
 		else if(intakeState==0){
 			intake.brake();
 		}
-        pros::delay(2);
+        pros::delay(ez::util::DELAY_TIME);
 	}
 }
 void trackLeftStick(double value){
