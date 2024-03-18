@@ -164,7 +164,9 @@ void opcontrol() {
         drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
       } 
 
+      // Toggle recording with right button
       if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+        // Start recording
         if(!recording){
           master.clear_line(1);
           pros::delay(60);
@@ -173,6 +175,7 @@ void opcontrol() {
           drive.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
           startRecording("recording.txt");
         }
+        // Stop recording
         else {
           stopRecording();
           drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
@@ -182,6 +185,7 @@ void opcontrol() {
           pros::delay(60);
         }
 		}
+    // Start recorded playback
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
 			master.clear_line(1);
 			pros::delay(60);
@@ -199,6 +203,7 @@ void opcontrol() {
 
       chassis.pid_tuner_iterate(); // Allow PID Tuner to iterate
     } 
+    // Split arcade with tangent curves
 		drive.arcadeDrive();
 		
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
