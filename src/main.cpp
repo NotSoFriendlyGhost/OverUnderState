@@ -206,23 +206,29 @@ void opcontrol() {
     // Split arcade with tangent curves
 		drive.arcadeDrive();
 		
+    // Intake balls
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
 			intake.move_voltage(12000);
 			if(recording) trackIntake(1);
 		}
+    // Release balls
 		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
 			intake.move_voltage(-12000);
 			if(recording) trackIntake(-1);
 		}
+    // Stop intake
 		else{
 			intake.brake();
 			if(recording) trackIntake(0);
 		}
 
+    // Spin flywheel
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 			flywheel.move_voltage(-12000*flywheelVelocity);
+    // Stop flywheel
 		else flywheel.brake();
 
+    // Toggle flywheel velocity between 75% and 100%
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
 			if(flywheelVelocity==0.5){
 				flywheelVelocity = 0.75;
@@ -240,27 +246,27 @@ void opcontrol() {
 			}
 		}
 
+    // Toggle wings
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
 			wingState = !wingState;
 			//if(recording) trackWings(wingState);
 		} 
 		wings.set_value(wingState);
 
+    // Reverse lifter direction everytime L2 is pressed
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) endgameDirection = !endgameDirection;
 
+    // Move lifter
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
 			if(endgameDirection) lifter.move_voltage(12000);
 			else lifter.move_voltage(-12000);
 		}
+    // Stop lifter
 		else lifter.brake();
 
+    // Start next line of recording
 		if(recording) ofs<<'\n';
-
 		
-    // . . .
-    // Put more user control code here!
-    // . . .
-
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
 }
