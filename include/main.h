@@ -87,7 +87,7 @@ void opcontrol(void);
 #include "titantron/autons.hpp" // IWYU pragma: export
 #include "titantron/drivetrain.hpp" // IWYU pragma: export
 #include "titantron/recording.hpp" // IWYU pragma: export
-#include "titantron/display.h"
+#include "titantron/display.hpp"
 //#include <iostream>
 #endif
 
