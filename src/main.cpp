@@ -70,6 +70,7 @@ void initialize() {
   });
 
   // Initialize chassis and auton selector
+  ez::as::initialize();
   chassis.initialize();
   master.rumble(".");
   master.clear();
@@ -83,7 +84,6 @@ void initialize() {
  * the robot is enabled, this task will exit.
  */
 void disabled() {
-  ez::as::initialize();
   // . . .
 }
 
