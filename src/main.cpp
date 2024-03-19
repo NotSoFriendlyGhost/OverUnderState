@@ -1,5 +1,6 @@
 #include "main.h"
 #include "pros/misc.h"
+#include "pros/misc.hpp"
 #include "pros/motors.h"
 
 /////
@@ -143,6 +144,10 @@ void autonomous() {
  */
 void opcontrol() {
   // This is preference to what you like to drive on
+  if(!pros::competition::is_connected()){
+    master.set_text(1,0,"Right to record");
+    pros::delay(60);
+  }
   master.set_text(2,0,"Flywheel: 75%");
 	pros::delay(60);
 	drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
