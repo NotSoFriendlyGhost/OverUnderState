@@ -4,6 +4,7 @@
 
 extern Drive chassis;
 
+void newRightScoring();
 void rightScoring();
 void drive_example();
 void turn_example();

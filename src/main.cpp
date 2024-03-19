@@ -1,4 +1,5 @@
 #include "main.h"
+#include "EZ-Template/util.hpp"
 #include "pros/misc.h"
 #include "pros/misc.hpp"
 #include "pros/motors.h"
@@ -48,6 +49,10 @@ void initialize() {
   
   pros::delay(500); // Stop the user from doing anything while legacy ports configure
 
+  // Configure chassis
+  chassis.opcontrol_curve_buttons_toggle(true); // Enables modifying the controller curve with buttons on the joysticks
+  chassis.opcontrol_drive_activebrake_set(0.1);
+
   // Configure braking modes
   intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	flywheel.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
@@ -60,6 +65,7 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
+    Auton("Alternative right Side Scoring\n\nGo for barrier ball first.", newRightScoring),
     Auton("Right Side Scoring\n\nScore 6 balls on right side.", rightScoring),
     Auton("Example Drive\n\nDrive forward and come back.", drive_example),
     Auton("Example Turn\n\nTurn 3 times.", turn_example),
@@ -150,8 +156,10 @@ void opcontrol() {
   }
   master.set_text(2,0,"Flywheel: 75%");
 	pros::delay(60);
-	drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
   bool endgameDirection = 0;
+  chassis.pid_tuner_increment_p_set(1);
+  chassis.pid_tuner_increment_d_set(1);
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
   //teamLogo();
   
   while (true) {
@@ -169,11 +177,10 @@ void opcontrol() {
       // Trigger the selected autonomous routine
       if (master.get_digital_new_press(DIGITAL_DOWN)){
         autonomous();
-        drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
       } 
 
       // Toggle recording with right button
-      if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+      /*if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
         // Start recording
         if(!recording){
           master.clear_line(1);
@@ -192,27 +199,29 @@ void opcontrol() {
           master.set_text(1,0,"Recording Saved");
           pros::delay(60);
         }
-		}
-    // Start recorded playback
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
-			master.clear_line(1);
-			pros::delay(60);
-			master.set_text(1,0, "Replaying...");
-			pros::delay(60);
-			drive.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
-			playback("recording.txt");
-			drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-			master.clear_line(1);
-			pros::delay(60);
-			master.set_text(1,0, "Replay Done");
-			pros::delay(60);
+      }
+      // Start recorded playback
+      if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
+        master.clear_line(1);
+        pros::delay(60);
+        master.set_text(1,0, "Replaying...");
+        pros::delay(60);
+        drive.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+        playback("recording.txt");
+        drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+        master.clear_line(1);
+        pros::delay(60);
+        master.set_text(1,0, "Replay Done");
+        pros::delay(60);
 
-		}
+      }
+      */
 
       chassis.pid_tuner_iterate(); // Allow PID Tuner to iterate
     } 
     // Split arcade with tangent curves
-		drive.arcadeDrive();
+		// drive.arcadeDrive();
+    chassis.opcontrol_arcade_standard(ez::SPLIT);
 		
     // Intake balls
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
