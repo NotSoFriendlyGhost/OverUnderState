@@ -12,7 +12,6 @@ pros::Motor flywheel(19, pros::E_MOTOR_GEAR_BLUE, true);
 pros::Motor lifter(9,pros::E_MOTOR_GEAR_RED);
 pros::ADIDigitalOut wings('A', false);
 
-pros::Controller master (CONTROLLER_MASTER);
 pros::Imu imu(13);
 
 float flywheelVelocity = 0.75;

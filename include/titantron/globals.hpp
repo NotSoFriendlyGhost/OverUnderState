@@ -13,7 +13,6 @@ extern pros::Motor flywheel;
 extern pros::Motor lifter;
 extern pros::ADIDigitalOut wings;
 
-extern pros::Controller master;
 extern pros::Imu imu;
 
 extern float flywheelVelocity;
