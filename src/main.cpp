@@ -151,10 +151,10 @@ void autonomous() {
 void opcontrol() {
   // This is preference to what you like to drive on
   if(!pros::competition::is_connected()){
-    master.set_text(1,0,"Right to record");
+    master.set_text(0,0,"Right to record");
     pros::delay(60);
   }
-  master.set_text(2,0,"Flywheel: 75%");
+  master.set_text(1,0,"Flywheel: 75%");
 	pros::delay(60);
   bool endgameDirection = 0;
   chassis.pid_tuner_increment_p_set(1);
@@ -249,16 +249,16 @@ void opcontrol() {
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
 			if(flywheelVelocity==1){
 				flywheelVelocity = 0.75;
-				master.clear_line(2);
+				master.clear_line(1);
 				pros::delay(60);
-				master.set_text(2,0,"Flywheel: 75%");
+				master.set_text(1,0,"Flywheel: 75%");
 				pros::delay(60);
 			}
 			else{
 				flywheelVelocity = 1;
-				master.clear_line(2);
+				master.clear_line(1);
 				pros::delay(60);
-				master.set_text(2,0,"Flywheel: 100%");
+				master.set_text(1,0,"Flywheel: 100%");
 				pros::delay(60);
 			}
 		}
