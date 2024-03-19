@@ -44,7 +44,6 @@ ez::Drive chassis (
 void initialize() {
   // Print our branding over your terminal :D
   ez::ez_template_print();
-  teamLogo();
   
   pros::delay(500); // Stop the user from doing anything while legacy ports configure
 
@@ -146,6 +145,7 @@ void opcontrol() {
 	pros::delay(60);
 	drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
   bool endgameDirection = 0;
+  teamLogo();
   
   while (true) {
     
