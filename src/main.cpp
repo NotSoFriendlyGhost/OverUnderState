@@ -70,8 +70,8 @@ void initialize() {
   });
 
   // Initialize chassis and auton selector
-  ez::as::initialize();
   chassis.initialize();
+  ez::as::initialize();
   master.rumble(".");
   master.clear();
 }
