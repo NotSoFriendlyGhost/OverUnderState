@@ -152,7 +152,7 @@ void opcontrol() {
 	pros::delay(60);
 	drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
   bool endgameDirection = 0;
-  teamLogo();
+  //teamLogo();
   
   while (true) {
     
