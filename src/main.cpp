@@ -73,7 +73,9 @@ void initialize() {
   chassis.initialize();
   ez::as::initialize();
   master.rumble(".");
+  pros::delay(60);
   master.clear();
+  pros::delay(60);
 }
 
 
@@ -231,9 +233,9 @@ void opcontrol() {
 
     // Toggle flywheel velocity between 75% and 100%
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
-			if(flywheelVelocity==0.5){
+			if(flywheelVelocity==1){
 				flywheelVelocity = 0.75;
-				master.clear_line(1);
+				master.clear_line(2);
 				pros::delay(60);
 				master.set_text(2,0,"Flywheel: 75%");
 				pros::delay(60);
