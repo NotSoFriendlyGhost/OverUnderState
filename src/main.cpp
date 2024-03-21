@@ -67,16 +67,10 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-    Auton("Right scoring with only back wings\n\nGo for barrier ball first.", rightBackWings),
-    Auton("Alternative right Side Scoring\n\nGo for barrier ball first.", newRightScoring),
-    Auton("Right Side Scoring\n\nScore 6 balls on right side.", rightScoring),
-    Auton("Example Drive\n\nDrive forward and come back.", drive_example),
-    Auton("Example Turn\n\nTurn 3 times.", turn_example),
-    Auton("Drive and Turn\n\nDrive forward, turn, come back. ", drive_and_turn),
-    Auton("Drive and Turn\n\nSlow down during drive.", wait_until_change_speed),
-    Auton("Swing Example\n\nSwing in an 'S' curve", swing_example),
-    Auton("Combine all 3 movements", combining_movements),
-    Auton("Interference\n\nAfter driving forward, robot performs differently if interfered or not.", interfered_example),
+    Auton("Left win point and scoring\n\nSteal ball and push to other side", leftAuton),
+    Auton("Safer right side scoring\n\nAvoid interference",safeRight),
+    Auton("Aggressive right scoring\n\nGo for barrier ball first.", aggroRight),
+    Auton("Skills run", skills),
   });
 
   // Initialize chassis and auton selector
@@ -173,6 +167,7 @@ void opcontrol() {
       // Trigger the selected autonomous routine
       if (master.get_digital_new_press(DIGITAL_X)){
         autonomous();
+        chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
       } 
 
       // Toggle recording with right button
@@ -183,13 +178,13 @@ void opcontrol() {
           pros::delay(60);
           master.set_text(0,0,"Recording...");
           pros::delay(60);
-          drive.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+          chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD);
           startRecording("recording.txt");
         }
         // Stop recording
         else {
           stopRecording();
-          drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+          chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
           master.clear_line(0);
           pros::delay(60);
           master.set_text(0,0,"Recording Saved");
@@ -202,9 +197,9 @@ void opcontrol() {
         pros::delay(60);
         master.set_text(0,0, "Replaying...");
         pros::delay(60);
-        drive.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
+        chassis.drive_brake_set(pros::E_MOTOR_BRAKE_HOLD);
         playback("recording.txt");
-        drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
+        chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
         master.clear_line(0);
         pros::delay(60);
         master.set_text(0,0, "Replay Done");

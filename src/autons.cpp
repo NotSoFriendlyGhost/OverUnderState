@@ -1,5 +1,7 @@
+#include "autons.hpp"
 #include "main.h"
 #include "pros/distance.h"
+#include "pros/rtos.hpp"
 #include "titantron/globals.hpp"
 
 /////
@@ -27,12 +29,73 @@ void default_constants() {
 
   chassis.slew_drive_constants_set(7_in, 80);
 }
+void leftAuton(){
+  intake.move_voltage(12000);
+  chassis.pid_drive_set(20_in,DRIVE_SPEED, true);
+  chassis.pid_wait();
+  pros::delay(250);
+  chassis.pid_turn_relative_set(-5_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-21_in,DRIVE_SPEED, true);
+  chassis.pid_wait();
 
-void rightBackWings(){
+  wings.set_value(1);
+
+  chassis.pid_turn_relative_set(-97_deg, TURN_SPEED);
+  chassis.pid_wait();
+  wings.set_value(0);
+
+  chassis.pid_drive_set(1_in,DRIVE_SPEED);
+  chassis.pid_wait();
+
+  pros::delay(250);
+
+  chassis.pid_turn_relative_set(7_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  wings.set_value(0);
+  chassis.pid_drive_set(-17_in,DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(1_in,DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.pid_turn_relative_set(170_deg, TURN_SPEED);
+  chassis.pid_wait();
+  intake.move_voltage(-12000);
+  chassis.pid_drive_set(0.5,DRIVE_SPEED,false);
+  pros::delay(2000);
+}
+
+void safeRight(){
+  chassis.drive_imu_reset(-90);
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  intake.move_voltage(12000);
+  chassis.pid_drive_set(3_in,DRIVE_SPEED, true);
+  chassis.pid_wait();
+  pros::delay(250);
+  chassis.pid_drive_set(-12_in,DRIVE_SPEED);
+  chassis.pid_wait();
+  wings.set_value(1);
+  chassis.pid_turn_set(-135_deg,TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-12_in,DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.pid_turn_set(-180_deg,TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-5_in,DRIVE_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(5_in,DRIVE_SPEED);
+  chassis.pid_wait();
+  wings.set_value(0);
+}
+
+void aggroRight(){
   wings.set_value(1);
   chassis.drive_imu_reset(-45);
 
-  chassis.pid_turn_set(-40_deg, TURN_SPEED);
+  chassis.pid_turn_set(-38_deg, TURN_SPEED);
   chassis.pid_wait();
   wings.set_value(0);
 
@@ -51,154 +114,87 @@ void rightBackWings(){
   chassis.pid_wait();
   chassis.pid_turn_set(90_deg, TURN_SPEED);
   chassis.pid_wait();
-  wings.set_value(0);
   intake.move_voltage(-12000);
   pros::delay(500);
-  chassis.pid_drive_set(6_in,DRIVE_SPEED);
+  chassis.pid_drive_set(4_in,DRIVE_SPEED);
+  wings.set_value(0);
   chassis.pid_wait();
-
-  chassis.pid_drive_set(-5_in,DRIVE_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(-125_deg, TURN_SPEED);
-  chassis.pid_wait();
-  intake.move_voltage(12000);
-
-  chassis.pid_drive_set(10_in,DRIVE_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(-4_in,DRIVE_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(-45_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(-25_in,DRIVE_SPEED, true);
-  chassis.pid_wait();
-
-  wings.set_value(1);
-
-  chassis.pid_turn_set(-170_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(-2_in,DRIVE_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(180_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(-4_in,DRIVE_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(3_in,DRIVE_SPEED);
-  chassis.pid_wait();
-}
-
-void newRightScoring(){
-  chassis.drive_imu_reset(-45);
-
-  chassis.pid_turn_set(-43_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  intake.move_voltage(12000);
-  chassis.pid_drive_set(25_in,DRIVE_SPEED, true);
-  chassis.pid_wait();
-  pros::delay(100);
-
-
-  chassis.pid_turn_set(90_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  intake.move_voltage(-12000);
-  chassis.pid_drive_set(10_in,DRIVE_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(-2_in,DRIVE_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(-120_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  intake.move_voltage(12000);
-  chassis.pid_drive_set(10_in,DRIVE_SPEED);
-  chassis.pid_wait();
-  pros::delay(100);
 
   chassis.pid_drive_set(-3_in,DRIVE_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_turn_set(135_deg, TURN_SPEED);
+  chassis.pid_turn_set(-120_deg, TURN_SPEED); // Get close barrier ball
+  chassis.pid_wait();
+  intake.move_voltage(12000);
+
+
+
+  chassis.pid_drive_set(12_in,DRIVE_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(16_in,DRIVE_SPEED, true);
+  chassis.pid_drive_set(-4_in,DRIVE_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-45_deg, TURN_SPEED); // Go back to corner
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-19_in,DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(45_deg, TURN_SPEED);
+  chassis.pid_wait();
+  intake.move_voltage(-12000);
+  pros::delay(500);
+
+  wings.set_value(1);
+
+  chassis.pid_turn_relative_set(-190_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-13_in,DRIVE_SPEED);
   chassis.pid_wait();
 }
-///
-// Right Side Scoring
-///
-void rightScoring(){
-  chassis.pid_drive_set(24_in, DRIVE_SPEED, true);
+
+void skills(){
+  chassis.drive_imu_reset(-45);
+  chassis.pid_turn_set(-45_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_turn_set(-20_deg, TURN_SPEED);
+  chassis.pid_drive_set(5_in,DRIVE_SPEED);
   chassis.pid_wait();
 
-  intake.move_voltage(12000);
-  chassis.pid_drive_set(30_in, DRIVE_SPEED, true);
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
   chassis.pid_wait();
-
-  chassis.pid_turn_set(90_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(12_in,DRIVE_SPEED,true);
   intake.move_voltage(-12000);
+
+  chassis.pid_drive_set(5_in,DRIVE_SPEED);
+  chassis.pid_wait();
+  pros::delay(100);
+
+  chassis.pid_drive_set(-6_in,DRIVE_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(-12_in,DRIVE_SPEED,true);
+  chassis.pid_turn_set(75_deg, TURN_SPEED);
   chassis.pid_wait();
-  intake.brake();
+  wings.set_value(1);
 
-  chassis.pid_turn_set(-65_deg, TURN_SPEED);
-  chassis.pid_wait();
+  /*flywheel.move_voltage(-12000);
+  pros::delay(35000);
+  flywheel.brake();*/
 
-  intake.move_voltage(12000);
-  chassis.pid_drive_set(16_in,DRIVE_SPEED,true);
+  chassis.pid_drive_set(5_in,DRIVE_SPEED);
   chassis.pid_wait();
+  wings.set_value(0);
 
-  chassis.pid_drive_set(-12_in,DRIVE_SPEED,true);
-  chassis.pid_wait();
-  
-  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_turn_set(0_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(20_in,DRIVE_SPEED,true);
-  chassis.pid_wait_until(10_in);
-  intake.move_voltage(-12000);
+  chassis.pid_drive_set(30_in,DRIVE_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(-12_in,DRIVE_SPEED,true);
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_turn_set(-125_deg, TURN_SPEED);
-  chassis.pid_wait();
-  intake.move_voltage(12000);
-
-  chassis.pid_drive_set(26_in,DRIVE_SPEED,true);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(-12_in,DRIVE_SPEED,true);
-  chassis.pid_wait();
-  
-  chassis.pid_turn_set(90_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(20_in,DRIVE_SPEED,true);
-  chassis.pid_wait_until(10_in);
-  intake.move_voltage(-12000);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(-12_in,DRIVE_SPEED,true);
-  chassis.pid_wait();
 }
 
 ///
