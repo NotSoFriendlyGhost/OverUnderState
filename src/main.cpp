@@ -3,6 +3,8 @@
 #include "pros/misc.h"
 #include "pros/misc.hpp"
 #include "pros/motors.h"
+#include "titantron/globals.hpp"
+#include "titantron/recording.hpp"
 
 /////
 // For installation, upgrading, documentations and tutorials, check out our website!
@@ -227,22 +229,27 @@ void opcontrol() {
     // Split arcade with tangent curves
 		// drive.arcadeDrive();
     chassis.opcontrol_arcade_standard(ez::SPLIT);
+
+    // Track drivetrain motor voltages for recording
+    if(recording) 
+      drive.trackVoltage();
 		
     // Intake balls
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)){
 			intake.move_voltage(12000);
-			if(recording) trackIntake(1);
 		}
     // Release balls
 		else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)){
 			intake.move_voltage(-12000);
-			if(recording) trackIntake(-1);
 		}
     // Stop intake
 		else{
 			intake.brake();
-			if(recording) trackIntake(0);
 		}
+
+    // Print intake voltage to text file if recording
+    if(recording)
+      trackIntake();
 
     // Spin flywheel
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
@@ -268,12 +275,19 @@ void opcontrol() {
 			}
 		}
 
+    // Print flywheel voltage to text file if recording
+    if(recording)
+      trackFlywheel();
+
     // Toggle wings
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
 			wingState = !wingState;
-			//if(recording) trackWings(wingState);
 		} 
 		wings.set_value(wingState);
+
+    // Print wing state to text file if recording
+    if(recording) 
+      trackWings(wingState);
 
     // Reverse lifter direction everytime L2 is pressed
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) endgameDirection = !endgameDirection;
@@ -285,6 +299,10 @@ void opcontrol() {
 		}
     // Stop lifter
 		else lifter.brake();
+
+  // Print lifter voltage to text file if recording
+    if(recording)
+      trackLifter();
 
     // Start next line of recording
 		if(recording) ofs<<'\n';

@@ -19,22 +19,21 @@ void stopRecording();
 void playback(std::string filename);
 
 /**
- * Outputs intake state to the text file
- * \param state 1 means spinning forward, -1 means spinning in reverse, and 0 means braking
+ * Outputs intake voltage to the text file
 */
-void trackIntake(short state);
+void trackIntake();
 
 /**
- * Prints left joystick value to the text file
+ * Outputs flywheel voltage to the text file
 */
-void trackLeftStick(double value);
-
-/**
- * Prints right joystick value to the text file
-*/
-void trackRightStick(double value);
+void trackFlywheel();
 
 /**
  * Tracks if wings are on or off
 */
 void trackWings(bool state);
+
+/**
+ * Track lifter voltage to the text file
+*/
+void trackLifter();

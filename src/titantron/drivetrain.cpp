@@ -1,3 +1,4 @@
+#include "drivetrain.hpp"
 #include "main.h"
 
 
@@ -85,10 +86,8 @@ void Drivetrain::resetDriveEncoders(){
 
 void Drivetrain::arcadeDrive(){
     int power = master.get_analog(ANALOG_LEFT_Y);
-    if(recording) trackLeftStick(power);
     power = opcontrolLeftCurve(power);
     int turn = master.get_analog(ANALOG_RIGHT_X);
-    if(recording) trackRightStick(turn);
     turn = opcontrolRightCurve(turn);
     int left = power + turn;
     int right = power - turn;
@@ -98,17 +97,15 @@ void Drivetrain::arcadeDrive(){
     rightBack->move(right);
 }
 
-void Drivetrain::playbackDrive(double leftStick, double rightStick){
-    int power = leftStick;
-    power = opcontrolLeftCurve(power);
-    int turn = rightStick;
-    turn = opcontrolRightCurve(turn);
-    int left = power + turn;
-    int right = power - turn;
-    leftFront->move(left);
-    leftBack->move(left);
-    rightFront->move(right);
-    rightBack->move(right);
+void Drivetrain::trackVoltage(){
+    ofs<<leftFront->get_voltage()<<' ';
+    ofs<<rightFront->get_voltage()<<' ';
+}
+void Drivetrain::playbackDrive(double leftVoltage, double rightVoltage){
+    leftFront->move_voltage(leftVoltage);
+    leftBack->move_voltage(leftVoltage);
+    rightFront->move_voltage(rightVoltage);
+    rightBack->move_voltage(rightVoltage);
 }
 
 void Drivetrain::setBrakeMode(pros::motor_brake_mode_e brakeMode){

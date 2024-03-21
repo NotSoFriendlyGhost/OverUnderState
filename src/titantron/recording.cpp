@@ -1,3 +1,4 @@
+#include "recording.hpp"
 #include "EZ-Template/util.hpp"
 #include "main.h"
 #include <fstream>
@@ -9,7 +10,7 @@ void startRecording(std::string filename){
     recording = true;
 }
 void stopRecording(){
-    ofs<<-128;
+    ofs<<-12001;
     ofs.close();
     recording = false;
 }
@@ -17,36 +18,35 @@ void playback(std::string filename){
     filename = "/usd/" + filename;
     std::ifstream ifs;
     ifs.open(filename.c_str());
-    double leftStick = 0;
-    double rightStick = 0;
-    short intakeState = 0;
+    int leftVoltage;
+    int rightVoltage;
+    int intakeVoltage;
+    int flywheelVoltage;
+    bool wingState;
+    int lifterVoltage;
     while (true) {
-        ifs>>leftStick;
-        if(leftStick==-128) break;
-        ifs>>rightStick>>intakeState;
-		drive.playbackDrive(leftStick, rightStick);
+        ifs>>leftVoltage;
+        if(leftVoltage==-12001) break;
+        ifs>>rightVoltage>>intakeVoltage>>flywheelVoltage>>wingState>>lifterVoltage;
+		drive.playbackDrive(leftVoltage, rightVoltage);
+        intake.move_voltage(intakeVoltage);
+        flywheel.move_voltage(flywheelVoltage);
+        wings.set_value(wingState);
+        lifter.move_voltage(lifterVoltage);
 		
-		if(intakeState==1){
-			intake.move_voltage(12000);
-		}
-		else if(intakeState==-1){
-			intake.move_voltage(-12000);
-		}
-		else if(intakeState==0){
-			intake.brake();
-		}
         pros::delay(ez::util::DELAY_TIME);
 	}
 }
-void trackLeftStick(double value){
-    ofs<<value<<' ';
-}
-void trackRightStick(double value){
-    ofs<<value<<' ';
-}
-void trackIntake(short state){
-    ofs<<state<<' ';
+
+void trackIntake(){
+    ofs<<intake.get_voltage()<<' ';
 };
+void trackFlywheel(){
+    ofs<<flywheel.get_voltage()<<' ';
+}
 void trackWings(bool state){
     ofs<<state<<' ';
+}
+void trackLifter(){
+    ofs<<lifter.get_voltage();
 }

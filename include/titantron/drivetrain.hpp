@@ -61,9 +61,14 @@ class Drivetrain{
         void arcadeDrive();
 
         /**
+         * Prints motor voltages on drivetrain to text file
+        */
+        void trackVoltage();
+
+        /**
          * Reads from the recorded text file and uses it to drive the robot
         */
-        void playbackDrive(double leftStick, double rightStick);
+        void playbackDrive(double leftVoltage, double rightVoltage);
 
         /**
          * Sets all drive motors to a brake mode
