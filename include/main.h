@@ -84,7 +84,6 @@ void opcontrol(void);
  */
 #include "titantron/joystickCurves.hpp" // IWYU pragma: export
 #include "titantron/globals.hpp" // IWYU pragma: export
-#include "titantron/autons.hpp" // IWYU pragma: export
 #include "titantron/drivetrain.hpp" // IWYU pragma: export
 #include "titantron/recording.hpp" // IWYU pragma: export
 #include "titantron/display.hpp"
