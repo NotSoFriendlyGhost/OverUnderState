@@ -171,23 +171,14 @@ void opcontrol() {
   
   while (true) {
     
-    // PID Tuner
-    // After you find values that you're happy with, you'll have to set them in auton.cpp
     if (!pros::competition::is_connected()) { 
-      // Enable / Disable PID Tuner
-      //  When enabled: 
-      //  * use A and Y to increment / decrement the constants
-      //  * use the arrow keys to navigate the constants
-      if (master.get_digital_new_press(DIGITAL_X)) 
-        chassis.pid_tuner_toggle();
-        
       // Trigger the selected autonomous routine
       if (master.get_digital_new_press(DIGITAL_DOWN)){
         autonomous();
       } 
 
       // Toggle recording with right button
-      /*if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
+      if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
         // Start recording
         if(!recording){
           master.clear_line(1);
@@ -220,14 +211,8 @@ void opcontrol() {
         pros::delay(60);
         master.set_text(1,0, "Replay Done");
         pros::delay(60);
-
       }
-      */
-
-      chassis.pid_tuner_iterate(); // Allow PID Tuner to iterate
     } 
-    // Split arcade with tangent curves
-		// drive.arcadeDrive();
     chassis.opcontrol_arcade_standard(ez::SPLIT);
 
     // Track drivetrain motor voltages for recording
