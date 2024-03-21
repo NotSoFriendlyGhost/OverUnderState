@@ -18,7 +18,7 @@ const int SWING_SPEED = 90;
 void default_constants() {
   chassis.pid_heading_constants_set(3, 0, 20);
   chassis.pid_drive_constants_set(70, 0, 300);
-  chassis.pid_turn_constants_set(4, 0, 30);
+  chassis.pid_turn_constants_set(4, 0, 35);
   chassis.pid_swing_constants_set(5, 0, 30);
 
   chassis.pid_turn_exit_condition_set(300_ms, 3_deg, 500_ms, 7_deg, 750_ms, 750_ms);
@@ -26,6 +26,72 @@ void default_constants() {
   chassis.pid_drive_exit_condition_set(300_ms, 1_in, 500_ms, 3_in, 750_ms, 750_ms);
 
   chassis.slew_drive_constants_set(7_in, 80);
+}
+
+void rightBackWings(){
+  wings.set_value(1);
+  chassis.drive_imu_reset(-45);
+
+  chassis.pid_turn_set(-40_deg, TURN_SPEED);
+  chassis.pid_wait();
+  wings.set_value(0);
+
+  intake.move_voltage(12000);
+  chassis.pid_drive_set(25_in,DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  wings.set_value(1);
+
+  chassis.pid_drive_set(-13_in,DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(4_in,DRIVE_SPEED);
+  chassis.pid_wait();
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_wait();
+  wings.set_value(0);
+  intake.move_voltage(-12000);
+  pros::delay(500);
+  chassis.pid_drive_set(6_in,DRIVE_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-5_in,DRIVE_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-125_deg, TURN_SPEED);
+  chassis.pid_wait();
+  intake.move_voltage(12000);
+
+  chassis.pid_drive_set(10_in,DRIVE_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-4_in,DRIVE_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-45_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-25_in,DRIVE_SPEED, true);
+  chassis.pid_wait();
+
+  wings.set_value(1);
+
+  chassis.pid_turn_set(-170_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-2_in,DRIVE_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(180_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-4_in,DRIVE_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(3_in,DRIVE_SPEED);
+  chassis.pid_wait();
 }
 
 void newRightScoring(){

@@ -56,7 +56,7 @@ void initialize() {
   // Configure braking modes
   intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	flywheel.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	lifter.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	lifter.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
   default_constants(); // Set the drive to your own constants from autons.cpp!
 
   // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
@@ -65,6 +65,7 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
+    Auton("Right scoring with only back wings\n\nGo for barrier ball first.", rightBackWings),
     Auton("Alternative right Side Scoring\n\nGo for barrier ball first.", newRightScoring),
     Auton("Right Side Scoring\n\nScore 6 balls on right side.", rightScoring),
     Auton("Example Drive\n\nDrive forward and come back.", drive_example),
@@ -154,9 +155,13 @@ void opcontrol() {
     master.set_text(0,0,"Right to record");
     pros::delay(60);
   }
+  else{
+    master.set_text(0,0,"Don't sell Matthew");
+    pros::delay(60);
+  }
   master.set_text(1,0,"Flywheel: 75%");
 	pros::delay(60);
-  bool endgameDirection = 0;
+  bool endgameDirection = 1;
   chassis.pid_tuner_increment_p_set(1);
   chassis.pid_tuner_increment_d_set(1);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
