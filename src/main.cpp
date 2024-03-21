@@ -52,13 +52,13 @@ void initialize() {
   pros::delay(500); // Stop the user from doing anything while legacy ports configure
 
   // Configure chassis
-  chassis.opcontrol_curve_buttons_toggle(true); // Enables modifying the controller curve with buttons on the joysticks
+  chassis.opcontrol_curve_buttons_toggle(false); // Enables modifying the controller curve with buttons on the joysticks
   chassis.opcontrol_drive_activebrake_set(0.1);
 
   // Configure braking modes
   intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	flywheel.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
-	lifter.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+	lifter.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   default_constants(); // Set the drive to your own constants from autons.cpp!
 
   // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
@@ -164,8 +164,6 @@ void opcontrol() {
   master.set_text(1,0,"Flywheel: 75%");
 	pros::delay(60);
   bool endgameDirection = 1;
-  chassis.pid_tuner_increment_p_set(1);
-  chassis.pid_tuner_increment_d_set(1);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
   //teamLogo();
   
@@ -173,7 +171,7 @@ void opcontrol() {
     
     if (!pros::competition::is_connected()) { 
       // Trigger the selected autonomous routine
-      if (master.get_digital_new_press(DIGITAL_DOWN)){
+      if (master.get_digital_new_press(DIGITAL_X)){
         autonomous();
       } 
 
@@ -181,9 +179,9 @@ void opcontrol() {
       if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
         // Start recording
         if(!recording){
-          master.clear_line(1);
+          master.clear_line(0);
           pros::delay(60);
-          master.set_text(1,0,"Recording...");
+          master.set_text(0,0,"Recording...");
           pros::delay(60);
           drive.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
           startRecording("recording.txt");
@@ -192,24 +190,24 @@ void opcontrol() {
         else {
           stopRecording();
           drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-          master.clear_line(1);
+          master.clear_line(0);
           pros::delay(60);
-          master.set_text(1,0,"Recording Saved");
+          master.set_text(0,0,"Recording Saved");
           pros::delay(60);
         }
       }
       // Start recorded playback
       if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
-        master.clear_line(1);
+        master.clear_line(0);
         pros::delay(60);
-        master.set_text(1,0, "Replaying...");
+        master.set_text(0,0, "Replaying...");
         pros::delay(60);
         drive.setBrakeMode(pros::E_MOTOR_BRAKE_HOLD);
         playback("recording.txt");
         drive.setBrakeMode(pros::E_MOTOR_BRAKE_COAST);
-        master.clear_line(1);
+        master.clear_line(0);
         pros::delay(60);
-        master.set_text(1,0, "Replay Done");
+        master.set_text(0,0, "Replay Done");
         pros::delay(60);
       }
     } 
@@ -239,6 +237,8 @@ void opcontrol() {
     // Spin flywheel
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 			flywheel.move_voltage(-12000*flywheelVelocity);
+    else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y))
+			flywheel.move_voltage(-12000*flywheelVelocity);
     // Stop flywheel
 		else flywheel.brake();
 
@@ -265,7 +265,7 @@ void opcontrol() {
       trackFlywheel();
 
     // Toggle wings
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A)){
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)){
 			wingState = !wingState;
 		} 
 		wings.set_value(wingState);
@@ -275,10 +275,10 @@ void opcontrol() {
       trackWings(wingState);
 
     // Reverse lifter direction everytime L2 is pressed
-		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_L2)) endgameDirection = !endgameDirection;
+		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_DOWN)) endgameDirection = !endgameDirection;
 
     // Move lifter
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)){
+		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)){
 			if(endgameDirection) lifter.move_voltage(12000);
 			else lifter.move_voltage(-12000);
 		}
