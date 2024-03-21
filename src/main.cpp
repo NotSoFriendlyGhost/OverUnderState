@@ -300,7 +300,7 @@ void opcontrol() {
     // Stop lifter
 		else lifter.brake();
 
-  // Print lifter voltage to text file if recording
+    // Print lifter voltage to text file if recording
     if(recording)
       trackLifter();
 
