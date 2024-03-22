@@ -140,28 +140,54 @@ void altRight(){
   chassis.pid_wait();
 }
 void safeRight(){
-  chassis.drive_imu_reset(-90);
-  chassis.pid_turn_set(-90_deg, TURN_SPEED);
-  chassis.pid_wait();
-  intake.move_voltage(12000);
-  chassis.pid_drive_set(3_in,DRIVE_SPEED, true);
-  chassis.pid_wait();
-  pros::delay(250);
-  chassis.pid_drive_set(-12_in,DRIVE_SPEED);
+  chassis.drive_imu_reset(-135);
+  chassis.pid_turn_set(-135_deg, TURN_SPEED);
   chassis.pid_wait();
   wings.set_value(1);
-  chassis.pid_turn_set(-135_deg,TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(-12_in,DRIVE_SPEED);
-  chassis.pid_wait();
-  chassis.pid_turn_set(-180_deg,TURN_SPEED);
-  chassis.pid_wait();
-  chassis.pid_drive_set(-5_in,DRIVE_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(5_in,DRIVE_SPEED);
+  pros::delay(500);
+  chassis.pid_turn_set(-170,TURN_SPEED); // Scoop corner ball out with wings
   chassis.pid_wait();
   wings.set_value(0);
+  chassis.pid_drive_set(-8_in,DRIVE_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(3_in,DRIVE_SPEED); // Move out of goal
+  chassis.pid_wait();
+  chassis.pid_turn_set(-65,TURN_SPEED); // Face other barrier ball
+  chassis.pid_wait();
+
+  intake.move_voltage(12000);
+  chassis.pid_drive_set(20_in,DRIVE_SPEED, true); // Get other barrier ball
+  chassis.pid_wait();
+  pros::delay(100);
+
+  chassis.pid_turn_set(-180,TURN_SPEED); // Back facing middle ball
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-7_in,DRIVE_SPEED); // Drive towards middle ball
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-90,TURN_SPEED); // Back facing goal
+  chassis.pid_wait();
+  wings.set_value(1);
+
+  chassis.pid_drive_set(-12_in,DRIVE_SPEED); // Push
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(3_in,DRIVE_SPEED); // Move out of goal
+  wings.set_value(0);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(90,TURN_SPEED); // Face goal with intaked ball
+  chassis.pid_wait();
+
+  intake.move_voltage(-12000); // Outtake ball
+  pros::delay(300);
+  chassis.pid_drive_set(-2_in,DRIVE_SPEED); // Push
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(4_in,DRIVE_SPEED); // Push
+  chassis.pid_wait();
 }
 
 void aggroRight(){
@@ -270,19 +296,34 @@ void skills(){
   chassis.pid_turn_set(-85_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(-30_in,DRIVE_SPEED,true);
+  chassis.pid_drive_set(-36_in,DRIVE_SPEED,true);
   chassis.pid_wait();
 
-  chassis.pid_turn_set(-135_deg, TURN_SPEED);
+  chassis.pid_turn_set(-205_deg, TURN_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(-8_in,DRIVE_SPEED);
+  chassis.pid_drive_set(-20_in,DRIVE_SPEED, true);
   chassis.pid_wait();
 
-  chassis.pid_turn_set(-180_deg, TURN_SPEED);
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
   chassis.pid_wait();
+
+  wings.set_value(1);
   
-  chassis.pid_drive_set(-8_in,DRIVE_SPEED);
+  chassis.pid_drive_set(-12_in,DRIVE_SPEED);
+  chassis.pid_wait();
+
+  wings.set_value(0);
+
+  chassis.pid_drive_set(12_in,DRIVE_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(-110_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  wings.set_value(1);
+
+  chassis.pid_drive_set(-13_in,DRIVE_SPEED);
   chassis.pid_wait();
 
 }
