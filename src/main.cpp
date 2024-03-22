@@ -68,6 +68,7 @@ void initialize() {
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
     Auton("Left win point and scoring\n\nSteal ball and push to other side", leftAuton),
+    Auton("Alternative right scoring\n\nGo for barrier, back up, scoring from corner",altRight),
     Auton("Safer right side scoring\n\nAvoid interference",safeRight),
     Auton("Aggressive right scoring\n\nGo for barrier ball first.", aggroRight),
     Auton("Skills run", skills),
@@ -287,6 +288,7 @@ void opcontrol() {
     // Start next line of recording
 		if(recording) ofs<<'\n';
 		
+    
     pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
 }

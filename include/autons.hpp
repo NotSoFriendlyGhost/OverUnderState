@@ -5,6 +5,7 @@
 extern Drive chassis;
 
 void leftAuton();
+void altRight();
 void safeRight();
 void aggroRight();
 void skills();
