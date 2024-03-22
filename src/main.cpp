@@ -234,7 +234,7 @@ void opcontrol() {
     if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 		  flywheel.move_voltage(-12000*flywheelVelocity);
     else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y))
-		  flywheel.move_voltage(-12000*flywheelVelocity);
+		  flywheel.move_voltage(12000*flywheelVelocity);
     // Stop flywheel
     else flywheel.brake();
 
