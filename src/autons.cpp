@@ -255,11 +255,13 @@ void aggroRight(){
 }
 
 void skills(){
+  flywheel.move_voltage(12000);
   chassis.drive_imu_reset(135);
   chassis.pid_turn_set(135_deg, TURN_SPEED);
   chassis.pid_wait();
 
   chassis.pid_drive_set(-12_in,DRIVE_SPEED*0.8);
+  flywheel.brake();
   chassis.pid_wait();
 
   chassis.pid_turn_set(180_deg, TURN_SPEED);
