@@ -67,11 +67,7 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-    Auton("Left win point and scoring\n\nSteal ball and push to other side", leftAuton),
-    Auton("Alternative right scoring\n\nGo for barrier, back up, scoring from corner",altRight),
-    Auton("Safer right side scoring\n\nAvoid interference",safeRight),
-    Auton("Aggressive right scoring\n\nGo for barrier ball first.", aggroRight),
-    Auton("Skills run", skills),
+    Auton("Driver skills macro", skills),
   });
 
   // Initialize chassis and auton selector
@@ -156,6 +152,8 @@ void opcontrol() {
     master.set_text(0,0,"Don't sell Matthew");
     pros::delay(60);
   }
+  autonomous();
+  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
   master.set_text(1,0,"Flywheel: 75%");
 	pros::delay(60);
   bool endgameDirection = 1;
@@ -234,7 +232,7 @@ void opcontrol() {
     if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 		  flywheel.move_voltage(-12000*flywheelVelocity);
     else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y))
-		  flywheel.move_voltage(-12000*flywheelVelocity);
+		  flywheel.move_voltage(12000*flywheelVelocity);
     // Stop flywheel
     else flywheel.brake();
 

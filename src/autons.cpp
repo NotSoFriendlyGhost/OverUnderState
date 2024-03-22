@@ -268,6 +268,7 @@ void skills(){
   chassis.pid_drive_set(-8_in,DRIVE_SPEED);
   chassis.pid_wait();
 
+  flywheel.move_voltage(-12000*0.75);
   chassis.pid_drive_set(6_in,DRIVE_SPEED);
   chassis.pid_wait();
 
@@ -276,56 +277,6 @@ void skills(){
   chassis.pid_drive_set(-2_in,DRIVE_SPEED);
   chassis.pid_wait();
   wings.set_value(1);
-
-  pros::delay(5000);
-
-  /*flywheel.move_voltage(-12000);
-  pros::delay(35000);
-  flywheel.brake();*/
-  wings.set_value(0);
-  chassis.pid_drive_set(2_in,DRIVE_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(-30_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(-8_in,DRIVE_SPEED);
-  chassis.pid_wait();
-
-
-  chassis.pid_turn_set(-85_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(-36_in,DRIVE_SPEED,true);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(-205_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_drive_set(-20_in,DRIVE_SPEED, true);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(-90_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  wings.set_value(1);
-  
-  chassis.pid_drive_set(-12_in,DRIVE_SPEED);
-  chassis.pid_wait();
-
-  wings.set_value(0);
-
-  chassis.pid_drive_set(12_in,DRIVE_SPEED);
-  chassis.pid_wait();
-
-  chassis.pid_turn_set(-110_deg, TURN_SPEED);
-  chassis.pid_wait();
-
-  wings.set_value(1);
-
-  chassis.pid_drive_set(-13_in,DRIVE_SPEED);
-  chassis.pid_wait();
-
 }
 
 ///
