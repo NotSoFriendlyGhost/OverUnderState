@@ -270,7 +270,7 @@ void skills(){
   chassis.pid_drive_set(-8_in,DRIVE_SPEED);
   chassis.pid_wait();
 
-  flywheel.move_voltage(-12000*0.75);
+  flywheel.move_voltage(-12000);
   chassis.pid_drive_set(6_in,DRIVE_SPEED);
   chassis.pid_wait();
 

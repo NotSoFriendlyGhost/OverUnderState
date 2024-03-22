@@ -1,5 +1,6 @@
 #include "main.h"
 #include "EZ-Template/util.hpp"
+#include "autons.hpp"
 #include "pros/misc.h"
 #include "pros/misc.hpp"
 #include "pros/motors.h"
@@ -152,12 +153,42 @@ void opcontrol() {
     master.set_text(0,0,"Don't sell Matthew");
     pros::delay(60);
   }
-  autonomous();
+  chassis.pid_targets_reset(); // Resets PID targets to 0
+  chassis.drive_imu_reset(); // Reset gyro position to 0
+  chassis.drive_sensor_reset(); // Reset drive sensors to 0
+  chassis.drive_brake_set(MOTOR_BRAKE_HOLD); // Set motors to hold.  This helps autonomous consistency
+  const int DRIVE_SPEED = 110;  
+  const int TURN_SPEED = 90;
+  flywheel.move_voltage(12000);
+  chassis.drive_imu_reset(135);
+  chassis.pid_turn_set(135_deg, TURN_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_drive_set(-12_in,DRIVE_SPEED*0.8);
+  flywheel.brake();
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(180_deg, TURN_SPEED);
+  chassis.pid_wait();
+  
+  chassis.pid_drive_set(-8_in,DRIVE_SPEED);
+  chassis.pid_wait();
+
+  flywheel.move_voltage(-12000*0.75);
+  chassis.pid_drive_set(6_in,DRIVE_SPEED);
+  chassis.pid_wait();
+
+  chassis.pid_turn_set(80_deg, TURN_SPEED);
+  chassis.pid_wait();
+  chassis.pid_drive_set(-2_in,DRIVE_SPEED);
+  chassis.pid_wait();
+  wings.set_value(1);
+  wings.set_value(1);
+  flywheel.move_voltage(-12000);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
   master.set_text(1,0,"Flywheel: 75%");
 	pros::delay(60);
   bool endgameDirection = 1;
-  chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
   //teamLogo();
   
   while (true) {
