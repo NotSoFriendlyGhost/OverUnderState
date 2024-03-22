@@ -230,12 +230,12 @@ void opcontrol() {
       trackIntake();
 
     // Spin flywheel
-		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
-			flywheel.move_voltage(-12000*flywheelVelocity);
+    if(master.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
+		  flywheel.move_voltage(-12000*flywheelVelocity);
     else if(master.get_digital(pros::E_CONTROLLER_DIGITAL_Y))
-			flywheel.move_voltage(-12000*flywheelVelocity);
+		  flywheel.move_voltage(-12000*flywheelVelocity);
     // Stop flywheel
-		else flywheel.brake();
+    else flywheel.brake();
 
     // Toggle flywheel velocity between 75% and 100%
 		if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)){
