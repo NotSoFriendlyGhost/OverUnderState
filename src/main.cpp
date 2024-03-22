@@ -288,7 +288,9 @@ void opcontrol() {
     // Start next line of recording
 		if(recording) ofs<<'\n';
 		
-    
-    pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
+    if(recording)
+      pros::delay(1);
+    else
+      pros::delay(ez::util::DELAY_TIME); // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
 }

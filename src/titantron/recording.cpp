@@ -34,7 +34,7 @@ void playback(std::string filename){
         wings.set_value(wingState);
         lifter.move_voltage(lifterVoltage);
 		
-        pros::delay(ez::util::DELAY_TIME);
+        pros::delay(1);
 	}
 }
 
