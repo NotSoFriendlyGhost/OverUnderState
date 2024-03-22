@@ -30,8 +30,10 @@ void default_constants() {
   chassis.slew_drive_constants_set(7_in, 80);
 }
 void leftAuton(){
+  flywheel.move_velocity(12000);
   intake.move_voltage(12000);
   chassis.pid_drive_set(20_in,DRIVE_SPEED, true);
+  flywheel.brake();
   chassis.pid_wait();
   pros::delay(250);
   chassis.pid_turn_relative_set(-5_deg, TURN_SPEED);
@@ -66,6 +68,7 @@ void leftAuton(){
   pros::delay(2000);
 }
 void altRight(){
+  flywheel.move_voltage(12000);
   wings.set_value(1); // Push preload to the side and face barrier
   chassis.drive_imu_reset(-45);
   chassis.pid_turn_set(-38_deg, TURN_SPEED);
@@ -74,6 +77,7 @@ void altRight(){
 
   intake.move_voltage(12000);
   chassis.pid_drive_set(25_in,DRIVE_SPEED, true); // Go for ball next to barrier
+  flywheel.brake();
   chassis.pid_wait();
   pros::delay(300);
 
@@ -140,11 +144,13 @@ void altRight(){
   chassis.pid_wait();
 }
 void safeRight(){
+  flywheel.move_voltage(12000);
   chassis.drive_imu_reset(-135);
   chassis.pid_turn_set(-135_deg, TURN_SPEED);
   chassis.pid_wait();
   wings.set_value(1);
   pros::delay(500);
+  flywheel.brake();
   chassis.pid_turn_set(-170,TURN_SPEED); // Scoop corner ball out with wings
   chassis.pid_wait();
   wings.set_value(0);
@@ -191,6 +197,7 @@ void safeRight(){
 }
 
 void aggroRight(){
+  flywheel.move_voltage(12000);
   wings.set_value(1);
   chassis.drive_imu_reset(-45);
 
@@ -200,6 +207,7 @@ void aggroRight(){
 
   intake.move_voltage(12000);
   chassis.pid_drive_set(25_in,DRIVE_SPEED, true);
+  flywheel.brake();
   chassis.pid_wait();
 
   chassis.pid_turn_set(-90_deg, TURN_SPEED);
@@ -255,11 +263,13 @@ void aggroRight(){
 }
 
 void skills(){
+  flywheel.move_voltage(12000);
   chassis.drive_imu_reset(135);
   chassis.pid_turn_set(135_deg, TURN_SPEED);
   chassis.pid_wait();
 
   chassis.pid_drive_set(-12_in,DRIVE_SPEED*0.8);
+  intake.brake();
   chassis.pid_wait();
 
   chassis.pid_turn_set(180_deg, TURN_SPEED);
