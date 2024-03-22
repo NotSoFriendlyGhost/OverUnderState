@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Titantron",
+    "project_name": "Driver Skills",
     "target": "v5",
     "templates": {
       "EZ-Template": {
@@ -334,8 +334,8 @@
     },
     "upload_options": {
       "description": "Code for team 38535A",
-      "icon": "pizza",
-      "slot": 1
+      "icon": "pros",
+      "slot": 2
     }
   }
 }
