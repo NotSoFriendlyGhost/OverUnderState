@@ -150,6 +150,7 @@ void safeRight(){
   chassis.pid_wait();
   wings.set_value(1);
   pros::delay(500);
+  chassis.pid_drive_set(-1_in,DRIVE_SPEED);
   flywheel.brake();
   chassis.pid_turn_set(-170,TURN_SPEED); // Scoop corner ball out with wings
   chassis.pid_wait();
