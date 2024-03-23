@@ -10,7 +10,7 @@ Drivetrain drive(-1,-11,10,20, 3.25);
 pros::Motor intake(2);
 pros::Motor flywheel(12, pros::E_MOTOR_GEAR_BLUE, true);
 pros::Motor lifter(9,pros::E_MOTOR_GEAR_RED);
-pros::Motor ratchet(3);
+pros::Motor ratchet(3, pros::E_MOTOR_ENCODER_DEGREES);
 pros::ADIDigitalOut wings('A', false);
 
 pros::Imu imu(13);
