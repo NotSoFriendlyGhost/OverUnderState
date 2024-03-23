@@ -156,7 +156,7 @@ void opcontrol() {
     master.set_text(0,0,"Don't sell Matthew");
     pros::delay(60);
   }
-  master.set_text(1,0,"Flywheel: 75%");
+  master.set_text(1,0,"Flywheel: 100%");
 	pros::delay(60);
   bool endgameDirection = 1;
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);

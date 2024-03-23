@@ -14,7 +14,7 @@ pros::ADIDigitalOut wings('A', false);
 
 pros::Imu imu(13);
 
-float flywheelVelocity = 0.75;
+float flywheelVelocity = 1;
 bool wingState = 0;
 
 std::ofstream ofs; //Used for recording
