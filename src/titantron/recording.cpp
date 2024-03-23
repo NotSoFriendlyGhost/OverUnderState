@@ -33,6 +33,7 @@ void playback(std::string filename){
         flywheel.move_voltage(flywheelVoltage);
         wings.set_value(wingState);
         lifter.move_voltage(lifterVoltage);
+        ratchet.move_voltage(lifterVoltage);
 		
         pros::delay(1);
 	}

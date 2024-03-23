@@ -11,6 +11,7 @@ extern Drivetrain drive;
 extern pros::Motor intake;
 extern pros::Motor flywheel;
 extern pros::Motor lifter;
+extern pros::Motor ratchet;
 extern pros::ADIDigitalOut wings;
 
 extern pros::Imu imu;

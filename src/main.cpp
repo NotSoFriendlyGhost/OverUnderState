@@ -60,6 +60,7 @@ void initialize() {
   intake.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 	flywheel.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	lifter.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+  ratchet.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
   default_constants(); // Set the drive to your own constants from autons.cpp!
 
   // These are already defaulted to these buttons, but you can change the left/right curve buttons here!
@@ -277,8 +278,14 @@ void opcontrol() {
 
     // Move lifter
 		if(master.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)){
-			if(endgameDirection) lifter.move_voltage(12000);
-			else lifter.move_voltage(-12000);
+			if(endgameDirection) {
+        lifter.move_voltage(12000);
+        ratchet.move_voltage(12000);
+      }
+			else {
+        lifter.move_voltage(-12000);
+        ratchet.move_voltage(-12000);
+      }
 		}
     // Stop lifter
 		else lifter.brake();
