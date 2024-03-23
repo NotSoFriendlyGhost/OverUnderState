@@ -289,9 +289,9 @@ void skills(){
 
   pros::delay(5000);
 
-  /*flywheel.move_voltage(-12000);
+  flywheel.move_voltage(-12000);
   pros::delay(35000);
-  flywheel.brake();*/
+  flywheel.brake();
   wings.set_value(0);
   chassis.pid_drive_set(2_in,DRIVE_SPEED);
   chassis.pid_wait();
