@@ -174,7 +174,7 @@ void opcontrol() {
   chassis.pid_drive_set(-8_in,DRIVE_SPEED);
   chassis.pid_wait();
 
-  flywheel.move_voltage(-12000*0.75);
+  flywheel.move_voltage(-12000);
   chassis.pid_drive_set(6_in,DRIVE_SPEED);
   chassis.pid_wait();
 
@@ -182,11 +182,8 @@ void opcontrol() {
   chassis.pid_wait();
   chassis.pid_drive_set(-2_in,DRIVE_SPEED);
   chassis.pid_wait();
-  wings.set_value(1);
-  wings.set_value(1);
-  flywheel.move_voltage(-12000);
   chassis.drive_brake_set(pros::E_MOTOR_BRAKE_COAST);
-  master.set_text(1,0,"Flywheel: 75%");
+  master.set_text(1,0,"Flywheel: 100%");
 	pros::delay(60);
   bool endgameDirection = 1;
   //teamLogo();
