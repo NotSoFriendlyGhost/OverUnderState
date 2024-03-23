@@ -3,6 +3,7 @@
 #include "pros/misc.h"
 #include "pros/misc.hpp"
 #include "pros/motors.h"
+#include "titantron/display.hpp"
 #include "titantron/globals.hpp"
 #include "titantron/recording.hpp"
 
@@ -155,6 +156,7 @@ void opcontrol() {
   else{
     master.set_text(0,0,"Don't sell Matthew");
     pros::delay(60);
+    teamLogo();
   }
   master.set_text(1,0,"Flywheel: 100%");
 	pros::delay(60);
