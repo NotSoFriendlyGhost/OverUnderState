@@ -154,10 +154,10 @@ void safeRight(){
   chassis.pid_turn_set(-170,TURN_SPEED); // Scoop corner ball out with wings
   chassis.pid_wait();
   wings.set_value(0);
-  chassis.pid_drive_set(-8_in,DRIVE_SPEED);
+  chassis.pid_drive_set(-10_in,DRIVE_SPEED);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(3_in,DRIVE_SPEED); // Move out of goal
+  chassis.pid_drive_set(5_in,DRIVE_SPEED); // Move out of goal
   chassis.pid_wait();
   chassis.pid_turn_set(-65,TURN_SPEED); // Face other barrier ball
   chassis.pid_wait();
