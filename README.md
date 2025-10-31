@@ -1,29 +1,47 @@
-VEX Robotics 38535A - "Over Under" State Championship Code
+# VEX Robotics 38535A — *"Over Under"* State Championship Code
 
-This repository contains the complete C/C++ source code for VEX Robotics Team 38535A's robot for the 2023-2024 VRC game, "Over Under." This code was developed for and used at the Illinois State Championship.
+This repository contains the complete **C/C++ source code** for **VEX Robotics Team 38535A’s** robot for the **2023–2024 VRC game, “Over Under.”**  
+This code was developed for and used at the **Illinois State Championship**.
 
-About The Game: "Over Under"
+---
 
-The 2023-2024 VEX Robotics Competition, "Over Under," was a 2v2 game where robots scored acorn-shaped objects ("Triballs") into goals and by elevating themselves at the end of the match. This code contains all the programming for both the 15-second autonomous period and the 1:45 driver-control period.
+## 🏆 About the Game: *“Over Under”*
 
-Key Features of This Program
+The **2023–2024 VEX Robotics Competition**, *“Over Under,”* was a **2v2 game** where robots scored **acorn-shaped objects (“Triballs”)** into goals and could **elevate themselves** at the end of the match.  
 
-This program is built on the PROS framework and uses the EZ-Template library for advanced autonomous control.
+This program includes all the logic for both:
+- **Autonomous Period** — 15 seconds  
+- **Driver-Control Period** — 1 minute and 45 seconds
 
-Multi-Routine Autonomous: Includes multiple, selectable autonomous programs to account for different starting positions and alliance strategies.
+---
 
-Odometry-Based Navigation: Uses the EZ-Template library to integrate sensor data for precise and reliable odometry, allowing for complex, multi-step autonomous paths.
+## ⚙️ Key Features
 
-Driver Control Enhancements: Fine-tuned driver controls with custom button mappings and helper functions to make the robot intuitive and responsive during competition.
+### 🔁 Multi-Routine Autonomous
+- Multiple selectable autonomous programs  
+- Supports different starting positions and alliance strategies
 
-Subsystem Management: Clean, organized code that manages all robot subsystems, including the drivetrain, intake, and scoring mechanisms.
+### 📍 Odometry-Based Navigation
+- Integrates sensor data using the **EZ-Template** library  
+- Enables precise and reliable odometry for complex, multi-step autonomous paths
 
-Tech Stack
+### 🎮 Driver Control Enhancements
+- Fine-tuned driver controls with custom button mappings  
+- Helper functions for a more intuitive and responsive driving experience
 
-Language: C / C++
+### 🧩 Subsystem Management
+- Clean, modular code managing all major robot subsystems:
+  - Drivetrain  
+  - Intake  
+  - Scoring mechanisms
 
-Framework: PROS (Purdue Robotics Operating System)
+---
 
-Key Library: EZ-Template (for odometry and autonomous movements)
+## 🛠️ Tech Stack
 
-Hardware: VEX V5 Electronics
+| Component | Details |
+|------------|----------|
+| **Language** | C / C++ |
+| **Framework** | [PROS](https://pros.cs.purdue.edu/) (Purdue Robotics Operating System) |
+| **Key Library** | [EZ-Template](https://ez-robotics.github.io/EZ-Template/) — odometry and autonomous movement |
+| **Hardware** | VEX V5 Electronics |
